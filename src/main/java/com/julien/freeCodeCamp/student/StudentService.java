@@ -54,7 +54,14 @@ public class StudentService {
         }
 
         if (email != null && email.length() > 0 && !Objects.equals(student.getEmail(), email)) {
+            Optional<Student> studentOptional = studentRepository.findStudentByEmail(email);
+
+            if (studentOptional.isPresent()) {
+                throw new IllegalStateException("Email has already exist " + email);
+            }
+
             student.setEmail(email);
+            System.out.println("Email has been setted => " + email);
         }
     }
 }
